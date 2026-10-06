@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An inspectable handover notebook for AI. Preserve decisions, trace their sources, and test what survives a context reset.">
+  <meta name="theme-color" content="#5954d6">
+  <title>ContextCarry — A fresh context. Not a fresh start.</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.7 6.3L21 12l-6.3 2.7L12 21l-2.7-6.3L3 12l6.3-2.7L12 3Z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4h6a3 3 0 0 1 3 3v14a4 4 0 0 0-4-2H4V4Zm9 3a3 3 0 0 1 3-3h5v15h-4a4 4 0 0 0-4 2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="8" r="5"/><path d="m12 12 9 9m-6-6 3-3m0 6 3-3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 1 8M3 4v6h6"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 4h16v13H9l-5 4V4Z"/><path d="M8 8h8M8 12h5"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 13 4-4m-6 6-2 2a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m4 2 2-2a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 0)"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="ContextCarry home"><img src="/favicon.svg" alt="" width="36" height="36"><span>Context<span class="brand-light">Carry</span><small>A NOTEBOOK FOR YOUR AI</small></span></a>
+    <div class="sidebar-label">YOUR DEMO</div>
+    <nav aria-label="Main navigation">
+      <a class="nav-item active" href="#lab"><svg><use href="#i-grid"/></svg>Get started<span class="nav-dot"></span></a>
+      <a class="nav-item" href="#comparison"><svg><use href="#i-spark"/></svg>Compare answers</a>
+      <button class="nav-item" data-action="how"><svg><use href="#i-book"/></svg>How it works</button>
+      <button class="nav-item" data-action="export"><svg><use href="#i-download"/></svg>Download results</button>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-label">CURRENT DEMO</div>
+    <div class="session-label"><span class="session-dot"></span><span id="session-name">New experiment</span></div>
+    <button class="new-session" data-action="new" data-mutate><svg><use href="#i-plus"/></svg>Start a new demo</button>
+    <div class="sidebar-bottom">
+      <div class="sidebar-note"><span class="small-caps">WHY THIS EXISTS</span><p>Long chats.<br>Important details.</p><span>Keep a small memory so you don't have to explain everything again.</span></div>
+      <div class="builder"><span class="builder-avatar">CC</span><div>Built for Hacktoberfest<small>KBTCOE · Nashik · 2026</small></div><span class="version">v0.1</span></div>
+    </div>
+  </aside>
+
+  <div class="shell">
+    <header class="topbar"><div class="breadcrumb">ContextCarry <span>/</span> <strong>Memory demo</strong></div><div class="topbar-actions"><span id="connection-status" class="connection"><i></i>Checking connection</span><button class="button button-small" id="connection-button" data-action="connect-open"><svg><use href="#i-key"/></svg>Connect Gemma</button></div></header>
+    <main id="main">
+      <section class="hero" id="lab">
+        <div><div class="eyebrow"><span></span>AI MEMORY, MADE SIMPLE</div><h1>Help your AI remember<br><span>what matters.</span></h1><p>Save the important details from a chat. Then compare what AI remembers <strong>with and without that memory.</strong></p></div>
+        <div class="hero-aside"><span class="open-badge"><svg><use href="#i-spark"/></svg>Powered by Gemma 4</span><button class="text-button" data-action="how">How does this work? <span>↗</span></button></div>
+      </section>
+
+      <div class="mobile-tools"><button class="text-button" data-action="how"><svg><use href="#i-info"/></svg>How it works</button><button class="text-button" data-action="new" data-mutate><svg><use href="#i-plus"/></svg>New demo</button></div>
+
+      <nav class="workflow" aria-label="Demo steps">
+        <a href="#conversation-heading" id="step-1"><span class="step-number">1</span><span>Add details<small>Use the example or your own chat</small></span></a>
+        <a href="#memory-heading" id="step-2"><span class="step-number">2</span><span>Save memory<small>Keep the important information</small></span></a>
+        <a href="#comparison" id="step-3"><span class="step-number">3</span><span>Compare answers<small>See what each assistant remembers</small></span></a>
+      </nav>
+
+      <section class="next-step" aria-label="Your next step">
+        <div><span class="eyebrow">YOUR NEXT STEP</span><h2 id="next-step-title">Start with the example conversation</h2><p id="next-step-description">We'll guide you through one step at a time.</p></div>
+        <button id="next-action" class="button button-primary" data-action="example" data-mutate>Use example <svg><use href="#i-arrow"/></svg></button>
+      </section>
+
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+      <div class="workspace-grid">
+        <section class="panel conversation-panel" aria-labelledby="conversation-heading">
+          <div class="panel-heading"><div class="heading-group"><span class="panel-icon"><span>1</span></span><div><h2 id="conversation-heading">Add your details</h2><p>Give the AI something worth remembering.</p></div></div><span class="count-badge" id="message-count">0 messages</span></div>
+          <form id="message-form" class="composer"><label for="message-input">Add an instruction or change a detail</label><textarea id="message-input" maxlength="4000" rows="3" placeholder="E.g. My budget is ₹3,000 and I eat vegetarian food." required data-mutate></textarea><div class="composer-bottom"><span>Ctrl/⌘ + Enter to add</span><button class="button button-small button-dark" type="submit" data-mutate>Add message <svg><use href="#i-arrow"/></svg></button></div></form>
+          <div class="conversation-tools"><span id="input-label">YOUR INPUT</span><button class="text-button" data-action="example" data-mutate>Load example <svg><use href="#i-arrow"/></svg></button></div>
+          <div class="messages" id="messages" tabindex="0" aria-label="Conversation messages"></div>
+          <div class="context-meter"><div><span>Chat length / recent-chat limit</span><strong id="context-usage">0 / 1,200 chars</strong></div><progress id="context-progress" max="1200" value="0" aria-label="Transcript size relative to context budget"></progress><p id="context-hint">Add messages to begin the experiment.</p></div>
+          <div class="panel-bottom"><button class="text-button" data-action="distraction" data-mutate><svg><use href="#i-plus"/></svg>Make the chat longer</button><span>Adds sample background messages</span></div>
+        </section>
+
+        <section class="panel memory-panel" aria-labelledby="memory-heading">
+          <div class="panel-heading"><div class="heading-group"><span class="panel-icon violet"><span>2</span></span><div><h2 id="memory-heading">Save the important details</h2><p>Gemma turns your chat into a short memory.</p></div></div><button class="icon-button" title="Copy saved memory" aria-label="Copy saved memory" data-action="copy-memory"><svg><use href="#i-copy"/></svg></button></div>
+          <div class="handover-footer">
+            <button class="button button-primary button-full" id="handover-button" data-action="handover" data-mutate><svg><use href="#i-book"/></svg>Save memory<svg><use href="#i-arrow"/></svg></button>
+            <span class="handover-note" id="handover-note">Saved details will appear below, with links to the original messages.</span>
+            <details class="advanced-settings"><summary>Adjust the memory test</summary><div class="budget-row"><label for="budget">Recent-chat limit</label><select id="budget" data-mutate><option value="900">900 characters</option><option value="1200" selected>1,200 characters</option><option value="2000">2,000 characters</option><option value="4000">4,000 characters</option></select></div><p>We use a deliberately small limit to demonstrate forgetting. Both assistants get the same limit; saved memory can use up to 60% of it.</p></details>
+          </div>
+          <p id="handover-status" class="notice inline-notice" role="status" aria-live="polite" hidden></p>
+          <div class="memory-toolbar"><div class="tabs" role="tablist" aria-label="Memory view"><button id="active-tab" role="tab" aria-selected="true" aria-controls="memory-content" data-action="tab" data-tab="active">Saved details <span id="active-count">0</span></button><button id="history-tab" role="tab" aria-selected="false" aria-controls="memory-content" data-action="tab" data-tab="history">Changes <span id="history-count">0</span></button></div><button class="icon-button" title="Inspect latest extraction" aria-label="Inspect latest extraction" data-action="extraction"><svg><use href="#i-info"/></svg></button></div>
+          <div id="memory-content" class="memory-content" role="tabpanel" aria-labelledby="active-tab"></div>
+        </section>
+      </div>
+
+      <section class="comparison-section" id="comparison" aria-labelledby="comparison-heading">
+        <div class="section-heading"><div><div class="eyebrow">STEP 3</div><h2 id="comparison-heading">Compare the answers</h2><p>Ask Gemma the same question twice. Only one answer gets help from your saved memory.</p></div><span class="neutral-badge"><span></span>Real AI responses</span></div>
+        <div class="panel question-panel"><label for="question">What should the AI remember?</label><textarea id="question" rows="3" maxlength="1200" data-mutate placeholder="What were my budget, preferences, and next steps?"></textarea><div class="question-bottom"><span><svg><use href="#i-info"/></svg>Ask about the details without giving the answers away.</span><button class="button button-primary" id="compare-button" data-action="compare" data-mutate><svg><use href="#i-spark"/></svg>Compare answers</button></div></div>
+        <p id="compare-help" class="compare-help">Complete step 2: save your memory first.</p>
+        <p id="comparison-status" class="notice inline-notice" role="status" aria-live="polite" hidden></p>
+        <details class="checks-editor"><summary>Choose the details to check <span id="check-count">0 checks</span></summary><div class="checks-body"><p>List the correct answers before comparing. These stay private from both AI calls. Review the results yourself—matching words don't always mean a correct answer.</p><div id="check-inputs"></div><button class="text-button" data-action="add-check" data-mutate><svg><use href="#i-plus"/></svg>Add a check</button></div></details>
+        <div id="results" class="results-grid"></div>
+        <div id="run-history" class="run-history"></div>
+        <details class="advanced-metrics"><summary>Technical details & run statistics</summary>
+          <section class="metrics" aria-label="Experiment metrics">
+            <div class="metric"><div class="metric-label">Times memory saved</div><div class="metric-value" id="generation">00</div><div class="metric-foot" id="generation-note">No memory saved yet</div></div>
+            <div class="metric"><div class="metric-label">Saved details</div><div class="metric-value" id="memory-count">0<span>items</span></div><div class="metric-foot">Linked to original messages</div></div>
+            <div class="metric"><div class="metric-label">Memory size</div><div class="metric-value" id="memory-size">—</div><div class="metric-foot" id="memory-size-note">A short note instead of the full chat</div></div>
+            <div class="metric"><div class="metric-label">Completed comparisons</div><div class="metric-value" id="run-count">0</div><div class="metric-foot">Both AI calls succeeded</div></div>
+          </section>
+        </details>
+        <details class="methodology"><summary><svg><use href="#i-info"/></svg>What this experiment does—and what it doesn’t measure</summary><p>We deliberately truncate the available transcript by characters; this does not exhaust Gemma’s actual context window. The baseline gets the most recent transcript that fits. ContextCarry uses the same ceiling, reserving space for its compact handover and filling the rest with recent messages. System instructions and the question sit outside that ceiling and are identical. Actual provider token counts are shown after a call.</p><p>Later handovers receive only the previous active memory and new messages. The archive is used to check source links, not to recover forgotten facts. Source checks prove that a quote exists, not that a model’s interpretation is correct. Expected-answer matching is a text heuristic, not a semantic benchmark. Review the answers, include ties and failures, and repeat trials before claiming an improvement. The baseline is recent-history truncation, not another provider’s memory system.</p></details>
+      </section>
+      <footer class="footer"><span><span class="saved-dot"></span><span id="save-status">Saved in this browser</span> · API key excluded from exports</span><button class="text-button" data-action="export">Download results <svg><use href="#i-download"/></svg></button></footer>
+    </main>
+  </div>
+
+  <dialog id="connect-dialog" aria-labelledby="connect-title">
+    <form id="connect-form">
+      <div class="dialog-heading"><span class="panel-icon violet"><svg><use href="#i-key"/></svg></span><button type="button" class="icon-button" data-action="close-dialog" aria-label="Close"><svg><use href="#i-close"/></svg></button></div>
+      <h2 id="connect-title">Connect your Gemma model</h2>
+      <p>Use your Google AI Studio key for real memory extraction and recall. Save it on this laptop to keep working after refreshing or restarting the app.</p>
+      <label for="api-key">Google AI Studio API key</label>
+      <input id="api-key" type="password" placeholder="Paste your key here" autocomplete="off" spellcheck="false" maxlength="256" data-mutate>
+      <small id="server-key-note">Enter your key once and choose Remember below.</small>
+      <label class="remember-key" for="remember-key"><input id="remember-key" type="checkbox" checked data-mutate><span>Remember on this laptop<small>Stored in a local Git-ignored file, never in browser storage or exports. Uncheck for this tab only.</small></span></label>
+      <label for="model">Model</label>
+      <select id="model" data-mutate><option value="gemma-4-26b-a4b-it">Gemma 4 · 26B A4B</option><option value="gemma-4-31b-it">Gemma 4 · 31B</option></select>
+      <p class="fine-print">The connection test makes one small model request. Your account’s API quota applies.</p>
+      <div id="connect-error" class="dialog-error" role="alert" hidden></div>
+      <button class="button button-primary button-full" type="submit" id="connect-submit" data-mutate>Test & connect <svg><use href="#i-arrow"/></svg></button>
+      <div class="dialog-links"><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Get a key in AI Studio ↗</a><button type="button" class="text-button" data-action="forget-key" data-mutate>Forget tab key</button></div>
+      <button type="button" class="text-button remove-saved-key" id="forget-saved-key" data-action="forget-saved-key" hidden data-mutate>Remove saved key from this laptop</button>
+    </form>
+  </dialog>
+
+  <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-title"><div class="dialog-heading"><span class="eyebrow" id="detail-kicker">UNDER THE HOOD</span><button class="icon-button" data-action="close-dialog" aria-label="Close"><svg><use href="#i-close"/></svg></button></div><h2 id="detail-title"></h2><div id="detail-content"></div></dialog>
+  <noscript><p>This app needs JavaScript to run the interactive experiment.</p></noscript>
+</body>
+</html>

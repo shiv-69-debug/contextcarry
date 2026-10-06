@@ -1,0 +1,22 @@
+{
+  "name": "The Nashik day trip",
+  "description": "Illustrative input messages, not model-generated results. Change any facts before running the live experiment.",
+  "messages": [
+    { "id": "m1", "role": "user", "text": "Help me plan a one-day trip to Nashik. My total budget is ₹2,000. I eat vegetarian food only, and I must be home before 6 PM." },
+    { "id": "m2", "role": "assistant", "text": "We can compare transport and places to visit, then build an itinerary around your constraints." },
+    { "id": "m3", "role": "user", "text": "Actually, increase my total budget to ₹3,000. That replaces the earlier budget. Next, we need to choose transport." },
+    { "id": "m4", "role": "assistant", "text": "Here is a general way to approach a day out: decide how far to travel, compare options, allow for breaks, and avoid packing too many stops into the schedule. We have not made any bookings." },
+    { "id": "m5", "role": "user", "text": "Before choosing anything, explain generally how to compare a bus and a taxi. This is background discussion, not a new preference or a decision." },
+    { "id": "m6", "role": "assistant", "text": "For a general comparison, a bus usually involves published departure points and a shared schedule. A taxi can offer more flexibility, but its price can depend on distance, waiting time, and the operator. Check current availability directly. It helps to compare the whole journey rather than only the headline fare: include reaching the pickup point, waiting, walking at the other end, and the return leg. Neither option has been selected here." },
+    { "id": "m7", "role": "user", "text": "Also explain why a relaxed itinerary can be better than rushing through lots of stops. Again, this is just general discussion; keep our actual decisions unchanged." },
+    { "id": "m8", "role": "assistant", "text": "A relaxed itinerary leaves space for queues, traffic, finding an entrance, and taking a break. Rushing between many locations can make the day mostly about transport rather than enjoying each place. A useful approach is to group nearby stops and leave optional activities that can be skipped. Weather, opening hours, and transport schedules should be checked before departure. This is general planning advice rather than a confirmed itinerary or a new constraint. We can now return to the actual plan." }
+  ],
+  "question": "What are my latest budget, food preference, return deadline, destination, and next unfinished planning task? Give a short plan using those details. If a detail is missing, say it is unknown.",
+  "checks": [
+    { "label": "Latest budget", "expected": "3000" },
+    { "label": "Food preference", "expected": "vegetarian" },
+    { "label": "Return deadline", "expected": "6 PM" },
+    { "label": "Destination", "expected": "Nashik" },
+    { "label": "Next task", "expected": "transport" }
+  ]
+}

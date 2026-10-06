@@ -1,0 +1,21 @@
+{
+  "name": "contextcarry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Evidence-linked handovers for AI conversations, with an inspectable context-window experiment.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.9.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --watch --env-file-if-exists=.env server.js",
+    "test": "node --test tests/*.test.js",
+    "test:browser": "playwright test",
+    "check": "node --check server.js && node --check src/memory.js && node --check src/prompts.js && node --check src/gemma.js && node --check src/service.js && node --check src/credentials.js && node --check public/app.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}
