@@ -244,4 +244,10 @@ Next work: a larger fixed evaluation set, better preservation of unfinished task
 
 Original application code is **[MIT licensed](LICENSE)**. Third-party tools and model terms remain separate.
 
+## Participation certificate
+
+Certificate awarded to **Shivmurti Doddini** for participation in **Hacktoberfest 26**, conducted by **MSC KBTCOE** on **6 October 2026**.
+
+[![Hacktoberfest 26 participation certificate awarded to Shivmurti Doddini](docs/assets/participation-certificate.png)](docs/assets/participation-certificate.png)
+
 Built by **[shiv-69-debug](https://github.com/shiv-69-debug)** for a solo hackathon, with the AI assistance disclosed above.
